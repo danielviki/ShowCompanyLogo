@@ -1,0 +1,37 @@
+# General
+.DS_Store
+*.log
+*.tmp
+*.swp
+
+# Node.js
+node_modules/
+dist/
+.cache/
+.env
+
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# Docker
+**/wp-content/uploads/
+**/wp-content/upgrade/
+**/wp-content/cache/
+**/wp-content/themes/
+**/wp-content/plugins/advanced-custom-fields/
+
+# IDE
+.vscode/
+.idea/
+
+# WordPress
+**/wp-config.php
+**/debug.log
+
+# Build artifacts
+*.dll
+*.pdb
+*.exe
