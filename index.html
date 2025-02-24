@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Logos</title>
+    <link rel="stylesheet" href="frontend/src/assets/main.css">
+</head>
+<body>
+    <div id="loadingMessage" class="loading">Loading companies...</div>
+    <div class="logo-grid" id="logoContainer"></div>
+
+    <script>
+        async function fetchCompanyLogos() {
+            const loadingMessage = document.getElementById('loadingMessage');
+            const container = document.getElementById('logoContainer');
+            
+            try {
+                loadingMessage.textContent = 'Fetching company names...';
+                
+                const response = await fetch('http://localhost:8080/wp-json/wp/v2/company', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const companies = await response.json();
+                console.log('Companies data:', companies);
+                
+                if (!companies || companies.length === 0) {
+                    loadingMessage.textContent = 'No companies found.';
+                    return;
+                }
+                
+                loadingMessage.style.display = 'none';
+                
+                // 处理每个公司的数据
+                for (const company of companies) {
+                    const companyDiv = document.createElement('div');
+                    companyDiv.className = 'logo-item';
+                    
+                    // 首先显示公司名称
+                    companyDiv.innerHTML = `<h3>${company.title.rendered}</h3>`;
+                    
+                    // 检查并获取logo
+                    if (company.acf && company.acf.logo_url) {
+                        try {
+                            loadingMessage.textContent = `Fetching logo for ${company.title.rendered}...`;
+                            
+                            const mediaResponse = await fetch(`http://localhost:8080/wp-json/wp/v2/media/${company.acf.logo_url}`);
+                            if (!mediaResponse.ok) {
+                                throw new Error('Media fetch failed');
+                            }
+                            
+                            const mediaData = await mediaResponse.json();
+                            console.log('Media data:', mediaData);
+                            
+                            // 添加图片到公司div
+                            const imgElement = document.createElement('img');
+                            imgElement.src = mediaData.link;
+                            imgElement.alt = mediaData.title.rendered;
+                            companyDiv.appendChild(imgElement);
+                            
+                        } catch (mediaError) {
+                            console.error('Error fetching media:', mediaError);
+                        }
+                    }
+                    
+                    container.appendChild(companyDiv);
+                }
+                
+                loadingMessage.style.display = 'none';
+                
+            } catch (error) {
+                console.error('Detailed error:', error);
+                loadingMessage.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // 页面加载时执行
+        document.addEventListener('DOMContentLoaded', fetchCompanyLogos);
+    </script>
+</body>
+</html>

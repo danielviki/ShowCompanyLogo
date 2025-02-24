@@ -1,0 +1,67 @@
+/* 英文字体定义 */
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('../assets/fonts/NotoSans-Regular.woff2') format('woff2'),
+         url('../assets/fonts/NotoSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 中文字体定义 */
+@font-face {
+    font-family: 'Noto Sans SC';
+    src: url('../assets/fonts/NotoSansSC-Regular.woff2') format('woff2'),
+         url('../assets/fonts/NotoSansSC-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 全局字体设置 */
+body {
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
+}
+
+.logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.logo-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-item h3 {
+    margin: 0 0 15px 0;
+    font-size: 18px;
+    color: #333;
+    order: -1;
+    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
+}
+
+.logo-item img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+.logo-item img:hover {
+    transform: scale(1.05);
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    color: #666;
+}
