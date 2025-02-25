@@ -10,6 +10,14 @@
 <body>
     <header class="site-header">
         <div class="container">
+            <div class="header-top">
+                <div class="language-selector">
+                    <select id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="cn">中文</option>
+                    </select>
+                </div>
+            </div>
             <h1>Corporate Directory</h1>
             <p class="subtitle">Showcasing Our Business Partners</p>
         </div>
@@ -17,10 +25,13 @@
 
     <main class="main-content">
         <div class="container">
+            <!-- loading message section (commented out) -->
+            <!--
             <div id="loadingMessage" class="loading">
                 <div class="loading-spinner"></div>
                 <p>Loading companies...</p>
             </div>
+            -->
             
             <div class="logo-grid" id="logoContainer"></div>
         </div>
