@@ -58,6 +58,33 @@ body {
     position: relative;                                   /* 相对定位 */
 }
 
+/* 图片加载状态样式 */
+.logo-item img {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.logo-item img.loading {
+    opacity: 0.5;
+}
+
+.logo-item img.loaded {
+    opacity: 1;
+}
+
+/* 图片占位符样式 */
+.logo-item {
+    position: relative;
+}
+
+.logo-item::before {
+    content: '';
+    display: block;
+    padding-top: 60%;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
 /* 公司logo图片样式 */
 .logo-item img {
     width: auto;
@@ -66,6 +93,10 @@ body {
     object-fit: contain;                                  /* 保持图片比例 */
     margin: 1rem 0;
     display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* 公司名称样式 */
@@ -288,4 +319,21 @@ body {
     .company-intro {
         font-size: 0.9rem;
     }
+}
+
+.company-logo.loading {
+    background-color: #f0f0f0;
+    animation: pulse 1.5s infinite; /* Example loading animation */
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+.company-logo {
+    width: 100%; /* Or your desired width */
+    height: auto;
+    object-fit: contain; /* Or your desired object-fit */
+    transition: opacity 0.3s; /* Smooth fade-in effect */
 }

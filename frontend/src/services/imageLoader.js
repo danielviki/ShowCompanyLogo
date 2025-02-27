@@ -1,68 +1,52 @@
-export class ImageLoader {
-    constructor() {
-        this.observer = null;
-        this.initIntersectionObserver();
+// imageLoader.js
+class ImageLoader {
+  constructor() {
+    this.images = document.querySelectorAll('img.lazy-load');
+    this.observer = null;
+    this.options = {
+      rootMargin: '0px 0px 100px 0px', // Adjust as needed
+      threshold: 0,
+    };
+  }
+
+  init() {
+    if ('IntersectionObserver' in window) {
+      this.observer = new IntersectionObserver(
+        this.handleIntersection.bind(this),
+        this.options
+      );
+      this.images.forEach((img) => this.observer.observe(img));
+    } else {
+      this.loadAll();
     }
+  }
 
-    initIntersectionObserver() {
-        if ('IntersectionObserver' in window) {
-            this.observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach(entry => {
-                        console.log('Observing image:', entry.target, 'isIntersecting:', entry.isIntersecting);
-                        if (entry.isIntersecting) {
-                            console.log('Loading image:', entry.target.dataset.src);
-                            this.loadImage(entry.target);
-                            this.observer.unobserve(entry.target);
-                        }
-                    });
-                },
-                {
-                    root: null,
-                    rootMargin: '200px 0px 200px 0px', // 增加上下预加载区域
-                    threshold: 0.01 // 降低触发阈值
-                }
-            );
-        } else {
-            console.warn('IntersectionObserver not supported, loading all images immediately');
-            this.loadAllImages();
-        }
-    }
+  handleIntersection(entries, observer) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && entry.target.dataset.loaded === 'false') {
+        this.loadImage(entry.target);
+        entry.target.dataset.loaded = 'true';
+        this.observer.unobserve(entry.target); // Stop observing after loading
+      }
+    });
+  }
 
-    observe(imageElement) {
-        if (this.observer) {
-            this.observer.observe(imageElement);
-        } else {
-            this.loadImage(imageElement);
-        }
-    }
-
-    loadImage(img) {
-        const src = img.getAttribute('data-src');
-        if (!src) return;
-
+  loadImage(img) {
+    const dataSrc = img.getAttribute('data-src');
+    if (dataSrc) {
         img.classList.add('loading');
-        
-        return new Promise((resolve, reject) => {
-            img.onload = () => {
-                img.classList.remove('loading');
-                img.classList.add('loaded');
-                resolve(img);
-            };
-            img.onerror = () => {
-                img.classList.remove('loading');
-                img.classList.add('error');
-                img.src = 'placeholder.png';
-                reject(new Error(`Failed to load image: ${src}`));
-            };
-            img.src = src;
-        });
+      img.onload = () => {
+        img.classList.remove('loading');
+      };
+      img.src = dataSrc;
     }
+  }
 
-    loadAllImages() {
-        // 降级方案：直接加载所有图片
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            this.loadImage(img);
-        });
-    }
+  loadAll() {
+    this.images.forEach((img) => {
+      this.loadImage(img);
+    });
+  }
 }
+
+export { ImageLoader };
