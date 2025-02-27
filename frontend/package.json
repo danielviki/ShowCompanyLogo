@@ -1,0 +1,25 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "vite.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.8.1",
+    "jwt-decode": "^4.0.0",
+    "react-refresh": "^0.16.0",
+    "vite-plugin-env-compatible": "^2.0.1",
+    "vite-plugin-react": "^4.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7"
+  }
+}

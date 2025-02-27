@@ -228,3 +228,25 @@ body {
         padding: 0.4rem 0.8rem;
     }
 }
+
+/* Company logo styles */
+.company-logo {
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto 1rem;
+}
+
+.company-item {
+    padding: 1rem;
+    margin: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+}
+
+/* Add loading state */
+.company-logo.loading {
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
