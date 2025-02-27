@@ -1,7 +1,17 @@
 import { defineConfig, loadEnv } from 'vite'
+import envCompatible from 'vite-plugin-env-compatible'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
+  
+  // Validate required environment variables
+  const requiredVars = ['VITE_WP_USERNAME', 'VITE_WP_PASSWORD', 'VITE_API_URL']
+  for (const variable of requiredVars) {
+    if (!env[variable]) {
+      throw new Error(`Missing required environment variable: ${variable}`)
+    }
+  }
+
   return {
     root: 'frontend',
     envDir: '../',
@@ -16,15 +26,12 @@ export default defineConfig(({ mode }) => {
         }
       }
     },
-    define: {
-      // This makes process.env available in the browser
-      'process.env': env
- /*     {
-        VITE_API_URL: JSON.stringify(env.VITE_API_URL),
-        VITE_WP_USERNAME: JSON.stringify(env.VITE_WP_USERNAME),
-        VITE_WP_PASSWORD: JSON.stringify(env.VITE_WP_PASSWORD)
-      }
- */
-    }
+    plugins: [
+      envCompatible({
+        prefix: 'VITE_',
+        mountedPath: 'process.env' // Make variables available as process.env
+      })
+    ],
+    // Remove define block as envCompatible handles it
   }
 })

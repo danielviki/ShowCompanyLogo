@@ -1,11 +1,14 @@
 class AuthService {
     constructor() {
-        // Initialize with process.env values or defaults
+        if (!process.env.VITE_WP_USERNAME || !process.env.VITE_WP_PASSWORD) {
+            throw new Error('Missing required environment variables');
+        }
+
         this.credentials = {
-            username: process.env.VITE_WP_USERNAME || 'apiuser',
-            password: process.env.VITE_WP_PASSWORD || 'wTcgU2Ro15fh@XQpifHtiXtM'
+            username: process.env.VITE_WP_USERNAME,
+            password: process.env.VITE_WP_PASSWORD
         };
-        this.apiUrl = process.env.VITE_API_URL || 'http://localhost:8080';
+        this.apiUrl = process.env.VITE_API_URL;
 
         this.token = null;
         this.tokenExpiry = null;

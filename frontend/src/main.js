@@ -1,17 +1,9 @@
 // Add this temporarily at the top of main.js
+/*
 console.log('Environment check:', {
     apiUrl: process.env?.VITE_API_URL,
     username: process.env?.VITE_WP_USERNAME,
     password: process.env?.VITE_WP_PASSWORD
-});
-
-/*
-console.log('import.meta:', import.meta);  // 打印 import.meta 对象
-console.log('import.meta.env:', import.meta.env);  // 打印环境变量
-console.log('Environment Debug:', {
-    all: import.meta.env,
-    apiUrl: import.meta.env.VITE_API_URL,
-    username: import.meta.env.VITE_WP_USERNAME,
 });
 */
 
