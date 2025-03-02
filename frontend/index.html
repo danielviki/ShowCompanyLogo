@@ -4,36 +4,155 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Directory</title>
-    <link rel="stylesheet" href="/src/assets/main.css">
-    <script type="module" src="/src/main.js"></script>
+    <link rel="stylesheet" href="/src/assets/main.css"> 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom Header Styles */
+        .navbar {
+            background-color: #f8f9fa; /* Light background */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            padding-top: 1.25rem; /* Increase padding */
+            padding-bottom: 1.25rem;
+        }
+
+        .navbar-brand {
+            font-weight: 600; /* Bolder title */
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand img {
+            margin-right: 10px; /* Space between logo and text */
+            transition: transform 0.3s ease; /* smooth logo transform */
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.1); /* zoom in on hover */
+        }
+
+        .navbar-title {
+            font-size: 1.3rem; /* Larger title */
+            color: #343a40;
+            white-space: nowrap; /* Prevent text wrap */
+        }
+
+        .navbar-nav .nav-link {
+            color: #495057; /* Darker link text */
+            padding-left: 1rem;
+            padding-right: 1rem;
+            transition: color 0.3s ease; /* Smooth color change */
+        }
+        .navbar-nav .nav-link:hover {
+            color: #007bff;
+            text-decoration: underline;
+        }
+        .form-control-sm {
+            height: calc(1.5em + 0.5rem + 2px);
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+            border-color: #ced4da;
+            box-shadow: none;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .form-control-sm:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        .navbar-toggler {
+            border: none;
+            background-color: transparent;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+        .navbar-light .navbar-nav .nav-link.active {
+            color: #007bff;
+        }
+        .language-select-wrapper {
+            margin-left: 1rem;
+        }
+        
+        /* Add this CSS */
+        .navbar-brand {
+            margin-right: auto; /* Push brand to the left */
+        }
+        .navbar-collapse {
+            flex-grow: 0; /* Prevent collapse from taking full width */
+        }
+    </style>
 </head>
 <body>
-    <header class="site-header">
+    <!-- Modernized Bootstrap Header -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
-            <div class="header-top">
-                <div class="language-selector">
-                    <select id="languageSelect">
-                        <option value="en">English</option>
-                        <option value="cn">中文</option>
-                    </select>
-                </div>
+            <a class="navbar-brand" href="#">
+                <img src="/src/assets/logo.png" alt="Company Logo" width="40" height="40" class="d-inline-block align-top">
+                <span class="navbar-title">Corporate Directory</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item language-select-wrapper">
+                        <select id="languageSelect" class="form-control form-control-sm">
+                            <option value="en">English</option>
+                            <option value="cn">中文</option>
+                        </select>
+                    </li>
+                </ul>
             </div>
-            <h1>Corporate Directory</h1>
-            <p class="subtitle">Showcasing Our Business Partners</p>
         </div>
-    </header>
+    </nav>
 
     <main class="main-content">
         <div class="container">
-            
+            <p class="subtitle text-center">Showcasing Our Business Partners</p>
             <div class="logo-grid" id="logoContainer"></div>
         </div>
     </main>
 
-    <footer class="site-footer">
+    <!-- New Bootstrap Footer -->
+    <footer class="site-footer text-light">
         <div class="container">
-            <p>&copy; 2025 Corporate Directory. All rights reserved.</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>About Us</h5>
+                    <p>We are dedicated to showcasing our valued business partners. Learn more about our mission.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light">Home</a></li>
+                        <li><a href="#" class="text-light">Partners</a></li>
+                        <li><a href="#" class="text-light">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <p>Email: info@example.com</p>
+                    <p>Phone: +1 123 456 7890</p>
+                </div>
+            </div>
+            <hr class="border-light">   
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">© 2025 Corporate Directory. All rights reserved.</p>
+                </div>
+            </div>
         </div>
     </footer>
+    <script type="module" src="/src/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

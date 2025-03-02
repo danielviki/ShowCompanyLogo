@@ -106,8 +106,8 @@ This project is licensed under the ISC License.
 - Noto Sans fonts for multilingual support
 
 ## Contact
-Your Name - [@yourusername](https://github.com/yourusername)
-Project Link: [https://github.com/yourusername/company-logo-directory](https://github.com/yourusername/company-logo-directory)
+Your Name - [@danielviki](https://github.com/danielviki)
+Project Link: [https://github.com/danielviki/ShowCompanyLogo](https://github.com/danielviki/ShowCompanyLogo)
 
 ---
 
