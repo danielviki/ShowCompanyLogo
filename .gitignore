@@ -23,6 +23,7 @@ dist/
 **/wp-content/themes/
 **/wp-content/plugins/advanced-custom-fields/
 **/wp-content/plugins/jwt-authentication-for-wp-rest-api/
+**/wp-content/plugins/akismet/
 
 # IDE
 .vscode/
