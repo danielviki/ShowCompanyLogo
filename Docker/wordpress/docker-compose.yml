@@ -12,6 +12,8 @@ services:
       MYSQL_PASSWORD: wppassword
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - wordpress_network
 
   wordpress:
     image: wordpress:latest
@@ -20,10 +22,25 @@ services:
     ports:
       - "8080:80"
     environment:
-      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wpuser
       WORDPRESS_DB_PASSWORD: wppassword
       WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress_data:/var/www/html
+      - /Users/danielzheng/Downloads/Development/ShowCompanyLogo/Docker/wordpress/wp-config.php:/var/www/html/wp-config.php
+      - /Users/danielzheng/Downloads/Development/ShowCompanyLogo/Docker/wordpress/wp-content/uploads:/var/www/html/wp-content/plugins
+      - /Users/danielzheng/Downloads/Development/ShowCompanyLogo/Docker/wordpress/wp-content/plugins:/var/www/html/wp-content/themes
+      - /Users/danielzheng/Downloads/Development/ShowCompanyLogo/Docker/wordpress/wp-content/plugins:/var/www/html/wp-content/uploads
+    depends_on:
+      - db
+    networks:
+      - wordpress_network
 
 volumes:
   db_data:
+  wordpress_data:
+
+networks:
+  wordpress_network:
+    driver: bridge
