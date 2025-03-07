@@ -1,0 +1,16 @@
+{
+    "title": "公司目录",
+    "subtitle": "我们的合作伙伴",
+    "description": "描述",
+    "introduction": "简介",
+    "contact": "联系方式",
+    "website": "网站",
+    "email": "邮箱",
+    "search": "搜索公司...",
+    "allCategories": "所有类别",
+    "switchLanguage": "Switch to English",
+    "loading": "加载中...",
+    "errorLoading": "加载公司信息失败",
+    "companyLogo": "公司标志",
+    "noLogo": "暂无标志"
+}

@@ -2,61 +2,62 @@
 // Uses IntersectionObserver API / 使用IntersectionObserver API
 class ImageLoader {
   constructor() {
-    // Configuration for IntersectionObserver / IntersectionObserver配置
-    this.images = document.querySelectorAll('img.lazy-load');
     this.observer = null;
     this.options = {
-      rootMargin: '0px 0px 100px 0px', // Adjust as needed
-      threshold: 0,
+      rootMargin: '50px 0px',    // 预加载阈值调整
+      threshold: 0.1             // 图片显示10%时触发
     };
   }
 
-  // Initialize lazy loading / 初始化懒加载
-  // Checks browser support first / 先检查浏览器支持
-  init() {
-    if ('IntersectionObserver' in window) {
-      this.observer = new IntersectionObserver(
-        this.handleIntersection.bind(this),
-        this.options
-      );
-      this.images.forEach((img) => this.observer.observe(img));
-    } else {
-      this.loadAll();
+  // Initialize for specific container
+  init(containerSelector = '.company-grid') {
+    if (!('IntersectionObserver' in window)) {
+      console.warn('IntersectionObserver not supported');
+      return;
+    }
+
+    this.observer = new IntersectionObserver(
+      this.handleIntersection.bind(this),
+      this.options
+    );
+
+    // Observe all lazy images in the container
+    const container = document.querySelector(containerSelector);
+    if (container) {
+      const images = container.querySelectorAll('img[data-src]');
+      images.forEach(img => this.observer.observe(img));
     }
   }
 
-  // Handle intersection events / 处理交叉观察事件
-  // Loads images when they enter viewport / 当图片进入视口时加载
-  handleIntersection(entries, observer) {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.target.dataset.loaded === 'false') {
+  handleIntersection(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
         this.loadImage(entry.target);
-        entry.target.dataset.loaded = 'true';
-        this.observer.unobserve(entry.target); // Stop observing after loading
+        this.observer.unobserve(entry.target);
       }
     });
   }
 
-  // Load individual image / 加载单个图片
-  // Manages loading state classes / 管理加载状态类
   loadImage(img) {
-    const dataSrc = img.getAttribute('data-src');
-    if (dataSrc) {
-        img.classList.add('loading');
-      img.onload = () => {
-        img.classList.remove('loading');
-      };
-      img.src = dataSrc;
-    }
+    const src = img.getAttribute('data-src');
+    if (!src) return;
+
+    img.classList.add('loading');
+    
+    img.onload = () => {
+      img.classList.remove('loading');
+      img.classList.add('loaded');
+    };
+
+    img.src = src;
+    img.removeAttribute('data-src');
   }
 
-  // Fallback for unsupported browsers / 不支持浏览器的回退方案
-  // Load all images immediately / 立即加载所有图片
-  loadAll() {
-    this.images.forEach((img) => {
-      this.loadImage(img);
-    });
+  destroy() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
   }
 }
 
-export { ImageLoader };
+export const imageLoader = new ImageLoader();

@@ -16,38 +16,49 @@ class AuthService {
         this.token = null;
         this.tokenExpiry = null;
         this.userInfo = null;
+        this.pendingAuth = null; // Add pending authentication promise
     }
 
     // Perform JWT authentication / 执行JWT认证
     // Returns token and user info / 返回令牌和用户信息
     async authenticate() {
         try {
-            // JWT Authentication request
-            const response = await fetch(`${this.apiUrl}/wp-json/jwt-auth/v1/token`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.credentials)
-            });
-
-            if (!response.ok) {
-                throw new Error('Authentication failed');
+            // Return existing auth promise if pending
+            if (this.pendingAuth) {
+                return await this.pendingAuth;
             }
 
-            const data = await response.json();
-            
-            // Store authentication data
-            this.token = data.token;
-            this.tokenExpiry = Date.now() + (6 * 24 * 60 * 60 * 1000); // 6 days
-            this.userInfo = {
-                email: data.user_email,
-                nicename: data.user_nicename,
-                displayName: data.user_display_name
-            };
+            // Create new auth promise
+            this.pendingAuth = (async () => {
+                const response = await fetch(`${this.apiUrl}/wp-json/jwt-auth/v1/token`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(this.credentials)
+                });
 
-            return data;
+                if (!response.ok) {
+                    throw new Error('Authentication failed');
+                }
+
+                const data = await response.json();
+                this.token = data.token;
+                this.tokenExpiry = Date.now() + (6 * 24 * 60 * 60 * 1000); // 6 days
+                this.userInfo = {
+                    email: data.user_email,
+                    nicename: data.user_nicename,
+                    displayName: data.user_display_name
+                };
+
+                return data;
+            })();
+
+            const result = await this.pendingAuth;
+            this.pendingAuth = null; // Clear pending promise
+            return result;
         } catch (error) {
+            this.pendingAuth = null; // Clear on error
             console.error('Authentication error:', error);
             throw error;
         }
@@ -57,6 +68,11 @@ class AuthService {
     // Automatically retries on 401 unauthorized / 401未授权时自动重试
     async fetchWithAuth(url, options = {}) {
         try {
+            // Check authentication before making request
+            if (!this.isAuthenticated()) {
+                await this.authenticate();
+            }
+
             const response = await fetch(url, {
                 ...options,
                 credentials: 'include',
@@ -66,9 +82,9 @@ class AuthService {
                 }
             });
 
+            // Don't retry automatically to avoid loops
             if (response.status === 401) {
-                this.token = null;
-                return this.fetchWithAuth(url, options);
+                throw new Error('Authentication failed');
             }
 
             return response;
@@ -78,28 +94,39 @@ class AuthService {
         }
     }
 
+    // Add request deduplication
+    #pendingRequests = new Map();
+
     // Get media URL with authentication / 通过认证获取媒体URL
     // mediaId: WordPress media ID / mediaId: WordPress媒体ID
     async fetchMediaWithAuth(mediaId) {
         try {
-            const response = await this.fetchWithAuth(
-                `${this.apiUrl}/wp-json/wp/v2/media/${mediaId}`
-            );
-
-            if (!response.ok) {
-                throw new Error(`Failed to fetch media: ${response.statusText}`);
+            // Check for pending request
+            if (this.#pendingRequests.has(mediaId)) {
+                return await this.#pendingRequests.get(mediaId);
             }
 
-            const mediaData = await response.json();
-            
-            // Check if 'media_details' and 'sizes' exist, and if 'thumbnail' is available
-            if (mediaData.media_details && mediaData.media_details.sizes && mediaData.media_details.sizes.thumbnail) {
-                return mediaData.media_details.sizes.thumbnail.source_url;
-            } else {
-                console.warn(`Thumbnail not available for media ID: ${mediaId}, falling back to full size.`);
-                return mediaData.source_url; // Fallback to full-size URL if thumbnail is not available
-            }
+            // Create new request promise
+            const promise = (async () => {
+                const response = await this.fetchWithAuth(
+                    `${this.apiUrl}/wp-json/wp/v2/media/${mediaId}`
+                );
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch media: ${response.statusText}`);
+                }
+
+                const mediaData = await response.json();
+                return mediaData.media_details?.sizes?.medium?.source_url || mediaData.source_url;
+            })();
+
+            this.#pendingRequests.set(mediaId, promise);
+
+            const result = await promise;
+            this.#pendingRequests.delete(mediaId); // Clean up
+            return result;
         } catch (error) {
+            this.#pendingRequests.delete(mediaId); // Clean up on error
             console.error('Media fetch error:', error);
             throw error;
         }

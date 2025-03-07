@@ -1,0 +1,16 @@
+{
+    "title": "Company Directory",
+    "subtitle": "Our Business Partners",
+    "description": "Description",
+    "introduction": "Introduction",
+    "contact": "Contact Information",
+    "website": "Website",
+    "email": "Email",
+    "search": "Search companies...",
+    "allCategories": "All Categories",
+    "switchLanguage": "切换到中文",
+    "loading": "Loading...",
+    "errorLoading": "Error loading company information",
+    "companyLogo": "Company Logo",
+    "noLogo": "No logo available"
+}
