@@ -1,61 +1,80 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { authService } from '../services/auth';
+import { imageLoader } from '../services/imageLoader';
 import placeholderImage from '../assets/placeholder.png';
 
 export function CompanyCard({ company }) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [logoUrl, setLogoUrl] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [imageLoaded, setImageLoaded] = useState(false);
+    const imageRef = useRef(null);
 
-    // Memoize loadLogo function
-    const loadLogo = useCallback(async () => {
-        // Skip if we already have a URL
-        if (logoUrl) return;
+    // Get description and introduction based on current language
+    const description = i18n.language === 'zh' 
+        ? company.acf?.company_description_cn 
+        : company.acf?.company_description;
 
-        try {
-            setIsLoading(true);
-            const mediaId = company.acf?.logo_url;
-            if (mediaId) {
-                const mediaUrl = await authService.fetchMediaWithAuth(mediaId);
-                if (mediaUrl && mediaUrl !== logoUrl) {
-                    setLogoUrl(mediaUrl);
-                }
-            }
-        } catch (err) {
-            console.error('Error loading logo:', err);
-        } finally {
-            setIsLoading(false);
-        }
-    }, [company.acf?.logo_url, logoUrl]);
+    const introduction = i18n.language === 'zh'
+        ? company.acf?.company_intro_cn
+        : company.acf?.company_intro;
 
     useEffect(() => {
+        let mounted = true;
+
+        async function loadLogo() {
+            try {
+                setIsLoading(true);
+                const mediaId = company.acf?.logo_url;
+                if (mediaId) {
+                    const mediaUrl = await authService.fetchMediaWithAuth(mediaId);
+                    if (mediaUrl && mounted) {
+                        setLogoUrl(mediaUrl);
+                    }
+                }
+            } catch (err) {
+                console.error('Error loading logo:', err);
+            } finally {
+                if (mounted) {
+                    setIsLoading(false);
+                }
+            }
+        }
+
         loadLogo();
-    }, [loadLogo]);
+        return () => { mounted = false; };
+    }, [company]);
 
-    const handleImageLoad = () => {
-        console.log('Image loaded successfully:', logoUrl);
-        setImageLoaded(true);
-        setIsLoading(false);
-    };
+    useEffect(() => {
+        // Initialize lazy loading when logo URL is set
+        if (!imageRef.current || !logoUrl) return;
 
-    const handleImageError = (e) => {
-        console.error('Image failed to load:', logoUrl);
-        e.target.src = placeholderImage;
-        e.target.className = 'company-logo placeholder';
-        setIsLoading(false);
-    };
+        const currentImg = imageRef.current;
+        imageLoader.observe(currentImg);
+
+        return () => {
+            if (currentImg) {
+                imageLoader.cleanup(currentImg);
+            }
+        };
+    }, [logoUrl]);
 
     return (
         <div className="company-card">
             <div className="logo-container">
                 <img 
-                    src={logoUrl || placeholderImage}
+                    ref={imageRef}
+                    src={placeholderImage}
+                    data-src={logoUrl}
                     alt={company.title?.rendered || t('companyLogo')}
                     className={`company-logo ${isLoading ? 'loading' : ''} ${imageLoaded ? 'loaded' : ''}`}
-                    onLoad={handleImageLoad}
-                    onError={handleImageError}
+                    onLoad={() => setImageLoaded(true)}
+                    onError={(e) => {
+                        console.error('Image load error:', e);
+                        e.target.src = placeholderImage;
+                        e.target.className = 'company-logo placeholder';
+                    }}
                 />
             </div>
 
@@ -64,18 +83,18 @@ export function CompanyCard({ company }) {
                 <h3 className="company-title">{company.title?.rendered}</h3>
                 
                 {/* Description */}
-                {company.acf?.company_description && (
+                {description && (
                     <div className="company-description">
                         <h4>{t('description')}</h4>
-                        <p>{company.acf.company_description}</p>
+                        <p>{description}</p>
                     </div>
                 )}
 
                 {/* Introduction */}
-                {company.acf?.company_intro && (
+                {introduction && (
                     <div className="company-introduction">
                         <h4>{t('introduction')}</h4>
-                        <p>{company.acf.company_intro}</p>
+                        <p>{introduction}</p>
                     </div>
                 )}
 

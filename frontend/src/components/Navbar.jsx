@@ -15,9 +15,8 @@ export function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-light sticky-top">
             <div className="container">
-                <a className="navbar-brand" href="#">
-                    <img src="/src/assets/logo.png" alt={t('companyLogo')} width="40" height="40" />
-                    <span className="navbar-title">{t('title')}</span>
+            <a className="navbar-brand" href="/">
+                    <span className="navbar-title">Corporate Directory</span>
                 </a>
                 <div className="language-select-wrapper">
                     <select 
