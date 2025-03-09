@@ -5,20 +5,15 @@ import { imageLoader } from '../services/imageLoader';
 import placeholderImage from '../assets/placeholder.png';
 
 export function CompanyCard({ company }) {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation('common');  // Specify namespace
     const [logoUrl, setLogoUrl] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [imageLoaded, setImageLoaded] = useState(false);
     const imageRef = useRef(null);
 
-    // Get description and introduction based on current language
-    const description = i18n.language === 'zh' 
-        ? company.acf?.company_description_cn 
-        : company.acf?.company_description;
-
-    const introduction = i18n.language === 'zh'
-        ? company.acf?.company_intro_cn
-        : company.acf?.company_intro;
+    // 获取当前语言的内容
+    const description = company.acf?.company_description;
+    const introduction = company.acf?.company_intro;
 
     useEffect(() => {
         let mounted = true;
@@ -71,34 +66,28 @@ export function CompanyCard({ company }) {
                     className={`company-logo ${isLoading ? 'loading' : ''} ${imageLoaded ? 'loaded' : ''}`}
                     onLoad={() => setImageLoaded(true)}
                     onError={(e) => {
-                        console.error('Image load error:', e);
                         e.target.src = placeholderImage;
                         e.target.className = 'company-logo placeholder';
                     }}
                 />
             </div>
-
-            {/* Company Information */}
             <div className="company-info">
                 <h3 className="company-title">{company.title?.rendered}</h3>
                 
-                {/* Description */}
-                {description && (
+                {company.acf?.company_description && (
                     <div className="company-description">
                         <h4>{t('description')}</h4>
-                        <p>{description}</p>
+                        <p>{company.acf.company_description}</p>
                     </div>
                 )}
 
-                {/* Introduction */}
-                {introduction && (
+                {company.acf?.company_intro && (
                     <div className="company-introduction">
                         <h4>{t('introduction')}</h4>
-                        <p>{introduction}</p>
+                        <p>{company.acf.company_intro}</p>
                     </div>
                 )}
 
-                {/* Contact Information */}
                 {(company.acf?.company_website || company.acf?.contact_email) && (
                     <div className="company-contact">
                         <h4>{t('contact')}</h4>

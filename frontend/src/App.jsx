@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
-import { CompanyCard } from './components/CompanyCard';
+import { CompanyList } from './components/CompanyList';
 import { authService } from './services/auth';
 import { imageLoader } from './services/imageLoader';
 
@@ -11,10 +11,11 @@ export function App() {
     const [error, setError] = useState(null);
     const { lang } = useParams();
     const navigate = useNavigate();
-    const { t, i18n } = useTranslation();
+    const { t, i18n } = useTranslation('common');
 
     useEffect(() => {
         if (lang && lang !== i18n.language) {
+            console.log('Changing language to:', lang);
             i18n.changeLanguage(lang);
         }
     }, [lang, i18n]);
@@ -58,20 +59,13 @@ export function App() {
         <div className="app">
             <LanguageSwitcher />
             <header className="app-header">
-                <h1>{t('title')}</h1>
-                <p>{t('subtitle')}</p>
+                <h1 className="main-title">{t('title')}</h1>
+                <p className="subtitle">{t('subtitle')}</p>
             </header>
-            <main className="company-grid">
-                {error ? (
-                    <p className="error-message">{error}</p>
-                ) : (
-                    companies.map(company => (
-                        <CompanyCard 
-                            key={company.id} 
-                            company={company} 
-                        />
-                    ))
-                )}
+            <main className="main-content">
+                <div className="container">
+                    <CompanyList />
+                </div>
             </main>
         </div>
     );

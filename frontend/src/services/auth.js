@@ -17,6 +17,7 @@ class AuthService {
         this.tokenExpiry = null;
         this.userInfo = null;
         this.pendingAuth = null; // Add pending authentication promise
+        this.baseUrl = 'http://localhost:8080/wp-json/wp/v2';
     }
 
     // Perform JWT authentication / 执行JWT认证
@@ -129,6 +130,19 @@ class AuthService {
             this.#pendingRequests.delete(mediaId); // Clean up on error
             console.error('Media fetch error:', error);
             throw error;
+        }
+    }
+
+    // Fetch companies / 获取公司信息
+    async fetchCompanies() {
+        try {
+            const response = await fetch(`${this.baseUrl}/company`);
+            if (!response.ok) throw new Error('Companies fetch failed');
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching companies:', error);
+            return [];
         }
     }
 
