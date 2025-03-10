@@ -34,7 +34,7 @@ export function CompanyCard({ company }) {
                             }
                         } catch (preloadError) {
                             console.error('Image preload failed:', preloadError);
-                            setLogoUrl(placeholderImage);
+                            // 由onError处理备用图片
                         }
                     }
                 }

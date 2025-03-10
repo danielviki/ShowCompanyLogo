@@ -11,6 +11,5 @@
     "switchLanguage": "中文",
     "loading": "Loading...",
     "errorLoading": "Error loading company information",
-    "companyLogo": "Company Logo",
-    "noLogo": "No logo available"
+    "companyLogo": "Company Logo"
 }
