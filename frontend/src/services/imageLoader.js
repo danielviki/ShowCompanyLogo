@@ -50,13 +50,71 @@ class ImageLoader {
         });
     }
 
-    imagePreload(url) {
+    imagePreload(url, signal) {
         return new Promise((resolve, reject) => {
+            if (signal?.aborted) {
+                return reject(new DOMException('Aborted', 'AbortError'));
+            }
+
             const img = new Image();
+            const abortHandler = () => {
+                img.onload = null;
+                img.onerror = null;
+                img.src = '';
+                reject(new DOMException('Aborted', 'AbortError'));
+            };
+
             img.src = url;
-            img.onload = () => resolve(img);
-            img.onerror = reject;
+            
+            img.onload = () => {
+                signal?.removeEventListener('abort', abortHandler);
+                resolve(img);
+            };
+            
+            img.onerror = (error) => {
+                signal?.removeEventListener('abort', abortHandler);
+                const errorType = img.naturalWidth === 0 ? 
+                    new Error('Image decode failed') : 
+                    error.status === 404 ? 
+                    new Error('Image not found (404)') : 
+                    new Error('Network error');
+                reject(errorType);
+            };
+
+            signal?.addEventListener('abort', abortHandler);
         });
+    }
+
+    // 预加载队列控制（最大并发数5）
+    preloadQueue = [];
+    activePreloads = 0;
+    MAX_CONCURRENT_PRELOADS = 5;
+
+    async enqueuePreload(url, signal) {
+        return new Promise((resolve, reject) => {
+            const task = async () => {
+                try {
+                    this.activePreloads++;
+                    const result = await this.imagePreload(url, signal);
+                    resolve(result);
+                } catch (error) {
+                    reject(error);
+                } finally {
+                    this.activePreloads--;
+                    this.processQueue();
+                }
+            };
+
+            this.preloadQueue.push(task);
+            this.processQueue();
+        });
+    }
+
+    processQueue() {
+        while (this.preloadQueue.length > 0 && this.activePreloads < this.MAX_CONCURRENT_PRELOADS) {
+            const task = this.preloadQueue.shift();
+            task();
+        }
     }
 
     cleanup(imageElement) {

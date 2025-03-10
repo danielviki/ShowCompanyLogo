@@ -28,7 +28,7 @@ export function CompanyCard({ company }) {
                     if (mediaUrl && mounted) {
                         try {
                             // 预加载图片
-                            await imageLoader.imagePreload(mediaUrl);
+                            await imageLoader.enqueuePreload(mediaUrl, controller.signal);
                             if (!controller.signal.aborted && mounted) {
                                 setLogoUrl(mediaUrl);
                             }
