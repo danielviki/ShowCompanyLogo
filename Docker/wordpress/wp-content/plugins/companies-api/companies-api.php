@@ -1,9 +1,10 @@
 <?php
 /**
  * Plugin Name: Companies API
- * Description: 创建自定义公司数据类型，并通过 REST API 提供访问
+ * Description: Create custom company data types and provide access through the REST API
  * Version: 1.0
  * Author: Daniel Zheng
+ * Requires Plugins: advanced-custom-fields, jwt-authentication-for-wp-rest-api
  */
 
 if (!defined('ABSPATH')) {

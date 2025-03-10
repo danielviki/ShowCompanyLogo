@@ -29,9 +29,9 @@ services:
     volumes:
       - wordpress_data:/var/www/html
       - /Users/danielzheng/Downloads/Development/ShowCompanyLogo/Docker/wordpress/wp-config.php:/var/www/html/wp-config.php
-      - /Users/danielzheng/Downloads/Development/ShowCompanyLogo/Docker/wordpress/wp-content/uploads:/var/www/html/wp-content/plugins
-      - /Users/danielzheng/Downloads/Development/ShowCompanyLogo/Docker/wordpress/wp-content/plugins:/var/www/html/wp-content/themes
-      - /Users/danielzheng/Downloads/Development/ShowCompanyLogo/Docker/wordpress/wp-content/plugins:/var/www/html/wp-content/uploads
+      - /Users/danielzheng/Downloads/Development/ShowCompanyLogo/Docker/wordpress/wp-content/plugins:/var/www/html/wp-content/plugins
+      - /Users/danielzheng/Downloads/Development/ShowCompanyLogo/Docker/wordpress/wp-content/themes:/var/www/html/wp-content/themes
+      - /Users/danielzheng/Downloads/Development/ShowCompanyLogo/Docker/wordpress/wp-content/uploads:/var/www/html/wp-content/uploads
     depends_on:
       - db
     networks:

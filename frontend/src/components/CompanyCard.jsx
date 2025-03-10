@@ -19,13 +19,23 @@ export function CompanyCard({ company }) {
         let mounted = true;
 
         async function loadLogo() {
+            const controller = new AbortController();
             try {
                 setIsLoading(true);
                 const mediaId = company.acf?.logo_url;
                 if (mediaId) {
                     const mediaUrl = await authService.fetchMediaWithAuth(mediaId);
                     if (mediaUrl && mounted) {
-                        setLogoUrl(mediaUrl);
+                        try {
+                            // 预加载图片
+                            await imageLoader.imagePreload(mediaUrl);
+                            if (!controller.signal.aborted && mounted) {
+                                setLogoUrl(mediaUrl);
+                            }
+                        } catch (preloadError) {
+                            console.error('Image preload failed:', preloadError);
+                            setLogoUrl(placeholderImage);
+                        }
                     }
                 }
             } catch (err) {
