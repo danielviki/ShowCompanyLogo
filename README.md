@@ -71,23 +71,23 @@ ShowCompanyLogo/
 │       └── zh/
 │
 ├── src/
-│   ├── components/            # React components
-│   │   ├── CompanyCard/      # Company card component
-│   │   ├── CompanyList/      # Company list container
-│   │   └── LanguageSwitcher/ # Language switching component
+│   ├── components/             # React components
+│   │   ├── CompanyCard/        # Company card component
+│   │   ├── CompanyList/        # Company list container
+│   │   └── LanguageSwitcher/   # Language switching component
 │   │
-│   ├── services/             # Business logic and API services
-│   │   ├── auth.ts          # Authentication and API calls
-│   │   └── imageLoader.ts   # Image lazy loading utility
+│   ├── services/               # Business logic and API services
+│   │   ├── auth.ts             # Authentication and API calls
+│   │   └── imageLoader.ts      # Image lazy loading utility
 │   │
-│   ├── assets/              # Static assets
+│   ├── assets/                 # Static assets
 │   │   ├── fonts/         
-│   │   └── main.css         # Global styles   
-│   ├── App.jsx            # Root component
-│   └── main.jsx           # Application entry point
+│   │   └── main.css            # Global styles   
+│   ├── App.jsx                 # Root component
+│   └── main.jsx                # Application entry point
 │
-├── vite.config.ts         # Vite configuration
-└── tsconfig.json         # TypeScript configuration
+├── vite.config.js              # Vite configuration
+└── package.json                # Project metadata
 ```
 
 ### Key Components
@@ -168,7 +168,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-MIT © [2024] [Daniel Zheng]
+MIT © [2024] [Daniel Viki]
 
 ## 🙏 Acknowledgments
 
