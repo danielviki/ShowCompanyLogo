@@ -64,19 +64,87 @@ npm run dev
 
 ### Project Structure
 ```
-src/
-├── components/          # React components
-├── services/           # API and utility services
-├── assets/            # Static assets and styles
-├── types/             # TypeScript definitions
-└── i18n/              # Translation files
+ShowCompanyLogo/
+├── public/
+│   └── locales/                # Translation files
+│       ├── en/
+│       └── zh/
+│
+├── src/
+│   ├── components/            # React components
+│   │   ├── CompanyCard/      # Company card component
+│   │   ├── CompanyList/      # Company list container
+│   │   └── LanguageSwitcher/ # Language switching component
+│   │
+│   ├── services/             # Business logic and API services
+│   │   ├── auth.ts          # Authentication and API calls
+│   │   └── imageLoader.ts   # Image lazy loading utility
+│   │
+│   ├── assets/              # Static assets
+│   │   ├── fonts/         
+│   │   └── main.css         # Global styles   
+│   ├── App.jsx            # Root component
+│   └── main.jsx           # Application entry point
+│
+├── vite.config.ts         # Vite configuration
+└── tsconfig.json         # TypeScript configuration
 ```
 
 ### Key Components
 
-- `CompanyCard`: Displays individual company information
-- `LanguageSwitcher`: Handles language switching
-- `ImageLoader`: Manages lazy loading of images
+#### 🎯 CompanyCard
+Core component for displaying company information:
+- Props: `company: Company`
+- Features:
+  - Lazy loaded company logo
+  - Bilingual content display
+  - Contact information
+  - Responsive layout
+
+#### 📋 CompanyList
+Container component managing company data:
+- Features:
+  - Data fetching and caching
+  - Language-based filtering
+  - Error handling
+  - Loading states
+
+#### 🌐 LanguageSwitcher
+Handles language switching functionality:
+- Features:
+  - URL-based language routing
+  - Language persistence
+  - Smooth transitions
+  - SEO-friendly links
+
+#### ⚡ ImageLoader
+Utility service for optimized image loading:
+- Features:
+  - Intersection Observer implementation
+  - Progressive loading
+  - Error handling
+  - Memory management
+
+### Service Layer
+
+#### 🔐 AuthService
+Manages API communication:
+```typescript
+interface AuthService {
+  fetchCompanies(): Promise<Company[]>;
+  fetchMediaWithAuth(mediaId: string): Promise<string>;
+}
+```
+
+#### 🖼️ ImageLoaderService
+Handles image optimization:
+```typescript
+interface ImageLoaderService {
+  init(): void;
+  observe(element: HTMLImageElement): void;
+  cleanup(): void;
+}
+```
 
 ## 🌐 Language Support
 
@@ -117,5 +185,5 @@ MIT © [2024] [Daniel Zheng]
 ---
 
 <p align="center">
-  Made with ❤️ by Daniel
+  Made with ❤️ by Daniel Viki
 </p>
