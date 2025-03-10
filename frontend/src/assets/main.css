@@ -140,24 +140,6 @@ body {
     }
 }
 
-/* Header styles */
-/*
-.site-header {
-    position: relative;
-    text-align: center;
-    padding: 3rem 0;
-    background-color: #fff;
-    border-bottom: 1px solid #eee;
-}
-
-.site-header h1 {
-    font-size: 2.5rem;
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-family: 'Noto Sans', 'Noto Sans SC', sans-serif;
-}
-*/
-
 .subtitle {
     font-size: 1.2rem;
     color: #666;
@@ -168,12 +150,12 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem; /* 增加两边内边距 */
-    width: 100%; /* 确保容器占满可用宽度 */
-    box-sizing: border-box; /* 确保padding不会增加总宽度 */
+    padding: 0 5%; /* 使用百分比实现动态对称边距 */
+    width: 100%;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center; /* 居中对齐容器内容 */
+    align-items: center;
 }
 
 /* Footer styles */
@@ -364,12 +346,13 @@ body {
 /* Company Grid Layout */
 .company-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 两列布局 */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    width: 100%;
+    padding-inline: 5%; /* 逻辑水平padding */
+    box-sizing: border-box;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
-    width: 100%;
 }
 
 /* Company Card */

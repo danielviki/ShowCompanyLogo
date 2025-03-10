@@ -1,133 +1,121 @@
-# Company Logo Directory
+# 🌏 Show Company Logo
 
-## Overview
-A web application for showcasing company logos and information with multilingual support (English/Chinese) built using vanilla JavaScript and Vite.
+A modern, bilingual company directory React application that seamlessly displays company information in English and Chinese. Built with React 18, Vite, and WordPress REST API.
 
-## Features
-- 🌐 Multilingual support (English/Chinese)
-- 🔐 JWT Authentication
-- 🖼️ Responsive grid layout
-- 🎨 Modern UI design
-- 🔄 CORS enabled
-- 📱 Mobile-friendly interface
+[![React](https://img.shields.io/badge/React-18-blue.svg)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-4-646CFF.svg)](https://vitejs.dev/)
+[![i18next](https://img.shields.io/badge/i18next-22-26A69A.svg)](https://www.i18next.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-007ACC.svg)](https://www.typescriptlang.org/)
 
-## Prerequisites
-- Node.js (v14 or higher)
-- WordPress backend with JWT Authentication plugin
-- PHP 7.4 or higher
+## ✨ Key Features
 
-## Installation
+- 🌐 Seamless English/Chinese language switching
+- 🖼️ Smart image lazy loading for optimal performance
+- 💫 Smooth animations and transitions
+- 🎯 SEO-friendly URL structure
+- 📱 Fully responsive design
+- ⚡ Lightning-fast loading with Vite
+- 🔄 Real-time language switching
+- 🎨 Clean, modern UI
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js >= 14
+- WordPress backend with REST API
+- npm or yarn
+
+### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/company-logo-directory.git
-cd company-logo-directory
+git clone https://github.com/yourusername/ShowCompanyLogo.git
+
+# Navigate to project
+cd ShowCompanyLogo
 
 # Install dependencies
 npm install
-```
 
-## Configuration
-
-1. Create a .env file in the project root:
-
-```bash
-VITE_API_URL=http://localhost:8080
-VITE_WP_USERNAME=your_username
-VITE_WP_PASSWORD=your_password
-```
-
-2. Configure WordPress:
-- Install and activate JWT Authentication plugin
-- Add custom CORS headers
-
-## Development
-
-```bash
 # Start development server
 npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run serve
 ```
 
-## Project Structure
+## 🛠️ Technologies
 
-```plaintext
-ShowCompanyLogo/
-├── frontend/
-│   ├── index.html
-│   └── src/
-│       ├── assets/
-│       │   ├── main.css
-│       │   └── fonts/
-│       ├── services/
-│       │   └── auth.js
-│       └── main.js
-├── .env
-├── .gitignore
-├── package.json
-└── vite.config.js
+- **Frontend:**
+  - React 18
+  - TypeScript
+  - i18next
+  - Intersection Observer API
+  - CSS Grid & Flexbox
+
+- **Build Tools:**
+  - Vite
+  - ESLint
+  - Prettier
+
+- **Backend Integration:**
+  - WordPress REST API
+  - Custom Post Types
+
+## 📖 Documentation
+
+### Project Structure
+```
+src/
+├── components/          # React components
+├── services/           # API and utility services
+├── assets/            # Static assets and styles
+├── types/             # TypeScript definitions
+└── i18n/              # Translation files
 ```
 
-## API Endpoints
+### Key Components
 
-### Authentication
-- `POST /wp-json/jwt-auth/v1/token` - Get JWT token
-- `POST /wp-json/jwt-auth/v1/token/refresh` - Refresh JWT token
+- `CompanyCard`: Displays individual company information
+- `LanguageSwitcher`: Handles language switching
+- `ImageLoader`: Manages lazy loading of images
 
-### Companies
-- `GET /wp-json/wp/v2/company` - List all companies
-- `GET /wp-json/wp/v2/company/{id}` - Get company details
+## 🌐 Language Support
 
-## Browser Support
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+Currently supports:
+- English (en)
+- Chinese (zh)
 
-## Contributing
+Add new languages by creating translation files in `public/locales/{lang}/common.json`
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Submit a pull request
 
-## License
-This project is licensed under the ISC License.
+## 📜 License
 
-## Acknowledgments
-- Vite.js for the build tooling
-- WordPress REST API
-- JWT Authentication
-- Noto Sans fonts for multilingual support
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact
-Your Name - [@danielviki](https://github.com/danielviki)
-Project Link: [https://github.com/danielviki/ShowCompanyLogo](https://github.com/danielviki/ShowCompanyLogo)
+MIT © [2024] [Daniel Zheng]
+
+## 🙏 Acknowledgments
+
+- [React](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [i18next](https://www.i18next.com/)
+- [WordPress REST API](https://developer.wordpress.org/rest-api/)
+
+## 📞 Contact & Support
+
+- Create an issue
+- Email: contact@outlook.com
 
 ---
 
-## Development Notes
-
-### Environment Variables
-Make sure to create a `.env.example` file without sensitive data for reference:
-
-```bash
-VITE_API_URL=http://localhost:8080
-VITE_WP_USERNAME=your_username_here
-VITE_WP_PASSWORD=your_password_here
-```
-
-### WordPress Setup
-Follow these steps to configure your WordPress backend:
-
-1. Install required plugins
-2. Configure CORS headers
-3. Set up JWT authentication
-4. Create company custom post type
-
-For detailed setup instructions, see WordPress Configuration Guide.
+<p align="center">
+  Made with ❤️ by Daniel
+</p>
