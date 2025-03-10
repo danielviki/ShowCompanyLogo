@@ -3,12 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { CompanyList } from './components/CompanyList';
+import { LoadingSpinner } from './components/LoadingSpinner';
 import { authService } from './services/auth';
 import { imageLoader } from './services/imageLoader';
 
 export function App() {
     const [companies, setCompanies] = useState([]);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
     const { lang } = useParams();
     const navigate = useNavigate();
     const { t, i18n } = useTranslation('common');
@@ -33,6 +35,7 @@ export function App() {
     }, []);
 
     async function fetchCompanies() {
+        setLoading(true);
         try {
             if (!authService.isAuthenticated()) {
                 await authService.authenticate();
@@ -52,6 +55,8 @@ export function App() {
         } catch (err) {
             console.error('Error fetching companies:', err);
             setError(t('fetchError'));
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -64,7 +69,11 @@ export function App() {
             </header>
             <main className="main-content">
                 <div className="container">
-                    <CompanyList />
+                    {loading ? (
+                        <LoadingSpinner />
+                    ) : (
+                        <CompanyList />
+                    )}
                 </div>
             </main>
         </div>
