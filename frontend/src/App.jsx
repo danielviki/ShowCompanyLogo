@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
-import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { Navbar } from './components/Navbar';
 import { CompanyList } from './components/CompanyList';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { authService } from './services/auth';
@@ -62,11 +62,7 @@ export function App() {
 
     return (
         <div className="app">
-            <LanguageSwitcher />
-            <header className="app-header">
-                <h1 className="main-title">{t('title')}</h1>
-                <p className="subtitle">{t('subtitle')}</p>
-            </header>
+            <Navbar />
             <main className="main-content">
                 <div className="container">
                     {loading ? (
