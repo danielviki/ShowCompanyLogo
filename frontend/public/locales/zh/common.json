@@ -11,5 +11,8 @@
     "switchLanguage": "English",
     "loading": "加载中...",
     "errorLoading": "加载公司信息失败",
-    "companyLogo": "公司标志"
+    "companyLogo": "公司标志",
+    "footer": {
+      "copyright": "© {{year}} Daniel Viki Inc. 保留所有权利。"
+    }
 }

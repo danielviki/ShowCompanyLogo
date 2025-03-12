@@ -11,5 +11,8 @@
     "switchLanguage": "中文",
     "loading": "Loading...",
     "errorLoading": "Error loading company information",
-    "companyLogo": "Company Logo"
+    "companyLogo": "Company Logo",
+    "footer": {
+      "copyright": "© {{year}} Daniel Viki Inc. All rights reserved."
+    }
 }

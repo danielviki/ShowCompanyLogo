@@ -24,7 +24,8 @@ body {
 
 /* Main content styles */
 .main-content {
-    padding: 2rem 0;
+    flex: 1;
+    padding: 2rem 0 8rem; /* Top: 2rem, Bottom: 8rem (128px) */
     background-color: #f5f5f5; /* 添加背景色区分内容区域 */
 }
 
@@ -150,7 +151,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 5%; /* 使用百分比实现动态对称边距 */
+    padding: 0 1rem;
     width: 100%;
     box-sizing: border-box;
     display: flex;
@@ -346,8 +347,9 @@ body {
 /* Company Grid Layout */
 .company-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
     gap: 2rem;
+    margin-bottom: 2rem;
     width: 100%;
     padding-inline: 5%; /* 逻辑水平padding */
     box-sizing: border-box;
@@ -454,4 +456,10 @@ body {
         min-width: 100px;
         padding: 0.4rem 0.8rem;
     }
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }

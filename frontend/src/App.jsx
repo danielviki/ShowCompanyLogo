@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
+import { Footer } from './components/Footer';
 import { CompanyList } from './components/CompanyList';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { authService } from './services/auth';
@@ -68,10 +69,11 @@ export function App() {
                     {loading ? (
                         <LoadingSpinner />
                     ) : (
-                        <CompanyList />
+                        <CompanyList companies={companies} />
                     )}
                 </div>
             </main>
+            <Footer />
         </div>
     );
 }
