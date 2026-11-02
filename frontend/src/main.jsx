@@ -37,7 +37,7 @@ const i18nInstance = i18n
     });
 
 // Ensure i18n is initialized before rendering
-await i18nInstance;
+i18nInstance.then(() => {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
@@ -53,3 +53,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </ErrorBoundary>
     </React.StrictMode>
 );
+
+}).catch(() => {
+    document.getElementById("root").textContent = "Unable to load translations. Please reload.";
+});
