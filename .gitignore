@@ -37,3 +37,7 @@ dist/
 *.dll
 *.pdb
 *.exe
+
+# Deployment secrets
+.env.*
+!.env.example

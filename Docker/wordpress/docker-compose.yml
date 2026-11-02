@@ -6,10 +6,10 @@ services:
     container_name: wordpress_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set a unique database root password}
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wpuser
-      MYSQL_PASSWORD: wppassword
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set a unique WordPress database password}
     volumes:
       - db_data:/var/lib/mysql
     networks:
@@ -20,11 +20,11 @@ services:
     container_name: wordpress_app
     restart: always
     ports:
-      - "8080:80"
+      - "127.0.0.1:8080:80"
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wpuser
-      WORDPRESS_DB_PASSWORD: wppassword
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:?Set a unique WordPress database password}
       WORDPRESS_DB_NAME: wordpress
     volumes:
       - wordpress_data:/var/www/html
